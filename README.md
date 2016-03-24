@@ -11,3 +11,4 @@
 ### 安装插件
 1. 在.vimrc中添加Bundle "插件"
 2. 然后打开一个窗口执行命令`:BundleInstall`
+
