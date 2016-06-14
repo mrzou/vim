@@ -12,3 +12,6 @@
 1. 在.vimrc中添加Bundle "插件"
 2. 然后打开一个窗口执行命令`:BundleInstall`
 
+### 安装ctags
+
+- mac: `brew install ctags`
