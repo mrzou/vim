@@ -48,8 +48,8 @@ ino <S-TAB> <C-R>="\<TAB>"<CR>
 " 插入模式中按ctrl+k匹配<%= %>
 " 插入模式中按ctrl+i匹配<% %>
 " 插入模式中按ctrl+b匹配binding.pry
-:inoremap <C-K> <%=  %><LEFT><Esc>i
-:inoremap <C-i> <%  %><LEFT><Esc>i<LEFT>
+:inoremap <C-K> <%=  %><LEFT><Esc>i<LEFT>
+:inoremap <C-J> <%  %><LEFT><Esc>i<LEFT>
 :inoremap <C-b> binding.pry
 
 set guifont=Menlo:h12
@@ -69,6 +69,7 @@ set guifont=Menlo:h12
 :map <C-l> gt
 :map <D-j> :CtrlP<CR>
 :map <D-e> :NERDTreeToggle<CR>
+:map <C-i> <C-]>
 nmap <f2> :NERDTreeToggle<cr>
 
 " vundle的配置
@@ -85,10 +86,13 @@ Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
+Bundle 'EasyGrep'
+"Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-rails'
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-endwise'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'carlosvillu/coffeScript-VIM-Snippets'
+Bundle 'dyng/ctrlsf.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'altercation/vim-colors-solarized'
@@ -99,6 +103,8 @@ let NERDTreeChDirMode=2
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos="left"
+" 支持高亮写在JavaScript中的CSS和HTML
+let javascript_enable_domhtmlcss = 1
 "autocmd vimenter * if !argc() | NERDTree | endif
 " Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -118,14 +124,19 @@ set laststatus=2 " Always display the status line
 set statusline+=%{fugitive#statusline()} "  Git Hotness
 
 " configure syntastic syntax checking to check on open as well as save
-let g:syntastic_check_on_open=1
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"let g:syntastic_check_on_open=1
+"let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_wq = 0
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+" ag.vim的配置项
+let g:ackprg = 'ag --nogroup --nocolor --column'''
+
+"set path to ctags
+set tags=./tags;/
 
 "javascript高亮显示
 syntax enable " enable syntax hightlight and completion
@@ -137,3 +148,18 @@ syntax enable
 set background=dark
 "set background=light
 colorscheme solarized
+
+"coffee 语法高亮
+au BufNewFile,BufRead *.coffee set ft=coffee
+" ctrlsf.vim调出快捷键
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
+nmap     <C-F>l <Plug>CtrlSFQuickfixPrompt
+vmap     <C-F>l <Plug>CtrlSFQuickfixVwordPath
+vmap     <C-F>L <Plug>CtrlSFQuickfixVwordExec
